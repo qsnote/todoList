@@ -8,14 +8,14 @@
 export default {
   data() {
     return {
-      text: '1111334'
+      text: '131334'
     }
   }
 }
 </script>
 
-<style lang="">
+<style scoped>
   .text {
-    background: red;
+    color: black;
   }
 </style>
