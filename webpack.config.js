@@ -21,21 +21,45 @@ const config = {
           'vue-loader'
         ]
       },
+      // {
+      //   test: /\.js$/,
+      //   exclude: /(node_modules|bower_components)/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //     options: {
+      //       presets: ['@babel/preset-env']
+      //     }
+      //   }
+      // },
       {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
+        test: /\.jsx$/,
+        loader: 'babel-loader'
       },
       {
-        test: /\.css/,
+        test: /\.css$/,
         use: [
           'style-loader',//写到html中
           'css-loader'
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "style-loader" // 将 JS 字符串生成为 style 节点
+          },
+          {
+            loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "sass-loader" // 将 Sass 编译成 CSS 最后的先执行
+          }
         ]
       },
       {
@@ -66,14 +90,20 @@ const config = {
 }
 
 if (isDev) {
+  config.devtool = '#cheap-module-eval-source-map'
   config.devServer = {
     port: 8000,
     host: '0.0.0.0',
     overlay: {
       errors: true,
     },
-    open: true
+    // open: true
+    hot: true
   }
+  config.plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  )
 }
 
 module.exports = config

@@ -1,6 +1,7 @@
 <template>
   <div class="text">
     {{text}}
+    <div class="r">2333</div>
   </div>
 </template>
 
@@ -8,14 +9,17 @@
 export default {
   data() {
     return {
-      text: '131334'
+      text: '1343883'
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .text {
     color: black;
+    .r {
+      color: #faa;
+    }
   }
 </style>
