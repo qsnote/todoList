@@ -9,7 +9,6 @@
     text-align: center;
     h1 {
       font-size: 100px;
-      color: #f00;
       font-weight: 100;
       margin: 20px;
     }
