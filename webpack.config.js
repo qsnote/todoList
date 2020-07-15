@@ -2,6 +2,7 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HTMLPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -38,7 +39,7 @@ const config = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',//写到html中
+          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader'
         ]
       },
@@ -46,7 +47,7 @@ const config = {
         test: /\.scss$/,
         use: [
           {
-            loader: "style-loader" // 将 JS 字符串生成为 style 节点
+            loader: isDev ? 'style-loader' : MiniCssExtractPlugin.loader, // 将 JS 字符串生成为 style 节点
           },
           {
             loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
@@ -85,7 +86,10 @@ const config = {
       }
     }),
     new VueLoaderPlugin(),
-    new HTMLPlugin()
+    new HTMLPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    })
   ]
 }
 
@@ -104,6 +108,8 @@ if (isDev) {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   )
+} else {
+  config.output.fileNmae
 }
 
 module.exports = config
