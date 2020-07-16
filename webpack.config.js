@@ -11,7 +11,7 @@ const config = {
   target: 'web',
   entry: path.join(__dirname, 'src/index.js'),
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[hash:8].js',
     path: path.join(__dirname, 'dist')
   },
   module: {
@@ -87,9 +87,7 @@ const config = {
     }),
     new VueLoaderPlugin(),
     new HTMLPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    })
+    
   ]
 }
 
@@ -109,7 +107,16 @@ if (isDev) {
     new webpack.NoEmitOnErrorsPlugin()
   )
 } else {
-  config.output.fileNmae
+  config.entry = {
+    app: path.join(__dirname, 'src/index.js'),
+    vendor: ['vue']
+  }
+  config.output.filename = '[name].[chunkhash:8].js'
+  config.plugins.push(
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash:8].css'
+    })
+  )
 }
 
 module.exports = config
